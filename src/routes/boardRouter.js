@@ -4,3 +4,5 @@ const router = express.Router();
 router.use(express.json());
 
 module.exports = router;
+
+module.exports = router;
