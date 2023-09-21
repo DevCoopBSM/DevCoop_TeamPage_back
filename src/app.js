@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const db = require("./models");
-const port = 8000;
+const port = 2000;
 const boardRouter = require("./routes/boardRouter.js");
 const join = require("./routes/join.js");
 const login = require("./routes/login.js");
@@ -9,7 +9,9 @@ const login = require("./routes/login.js");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", boardRouter, join, login);
+app.use("/api", boardRouter);
+app.use("/api", join);
+app.use("/api", login);
 
 db.sequelize
   .sync()
