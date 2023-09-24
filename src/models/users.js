@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   const Users = sequelize.define(
-    "users",
+    'users',
     {
       password: {
         type: DataTypes.STRING(200),
@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         autoIncrement: true,
       },
       is_devcoop: {
-        type: DataTypes.BOOLEAN, // here
+        type: DataTypes.BOOLEAN,
         allowNull: true,
       },
       acc_token: {
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
     },
-    { tableName: "users", timestamps: false }
+    { tableName: 'users', timestamps: false }
   );
 
   return Users;
