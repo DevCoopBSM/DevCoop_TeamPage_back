@@ -1,39 +1,43 @@
 const express = require('express');
 const router = express.Router();
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, sequelize, DataTypes } = require('sequelize');
+const jwt = require('jsonwebtoken');
+const models = require('../models');
+const users = models.user;
 
 router.use(express.json());
 
-let users = {};
-
-app.post('/api/login', async (req, res) => {
-  const id = req.body.id;
+router.post('/login', async (req, res) => {
+  const name = req.body.name;
   const pw = req.body.pw;
 
   try {
-    const user = await User.findOne({ where: { username: id } });
+    const user = await users.findOne({ where: { username: name } });
+    const uuid = user.uuid;
 
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
     }
 
     if (pw === user.password) {
-      // 입력된 비밀번호와 저장된 비밀번호가 일치하는지 확인
-      // 패스워드가 일치하는 경우 JWT 토큰 생성
+      // Access Token
+      const acc_token = jwt.sign({ uuid }, 'access-token-secret', {
+        expiresIn: '1h',
+      });
 
-      const token = jwt.sign({ id }, 'dldPgmsqhrhtlvek', { expiresIn: '1h' });
-      return res.send({ token });
+      // Refresh Token
+      const ref_token = jwt.sign({ uuid }, 'refresh-token-secret', {
+        expiresIn: '7d',
+      });
+
+      return res.send({ acc_token, ref_token });
     } else {
       return res.status(400).send({ message: 'Password is incorrect' });
     }
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({ message: 'Internal server error' });
+    console.error(error);
+    return res.status(500).send({ message: 'Server Error' });
   }
 });
-
-app.listen(3000, () =>
-  console.log('Server is running on port http://127.0.0.1/3000')
-);
 
 module.exports = router;
