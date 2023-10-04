@@ -22,7 +22,7 @@ router.put("/update/:id", async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).send({
+    res.status(500).send.json({
       message: err.message || `Update Error (id: ${id} )`,
     });
   }
