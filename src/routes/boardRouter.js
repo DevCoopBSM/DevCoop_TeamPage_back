@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { Sequelize, sequelize, DataTypes } = require('sequelize');
-const models = require('../models');
+const { Sequelize, sequelize, DataTypes } = require("sequelize");
+const models = require("../models");
 const boardList = models.board;
 
 router.use(express.json());
 
-router.put('/update/:id', async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   const id = req.params.id;
   const condition = { where: { board_id: id } };
 
@@ -28,20 +28,17 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
-
-router.get('/board', function(req, res, next) {
-  const id = req.query.id;
-
-  models.board.findAll()
-    .then(data => {
-      res.send(data);
-    })    
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
+router.get("/showboard", async (req, res) => {
+  try {
+    const postList = await models.board.findAll({
+      order: [["board_id", "DESC"]],
     });
+
+    res.send(postList);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "서버 오류" });
+  }
 });
 
 module.exports = router;
