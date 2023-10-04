@@ -28,4 +28,20 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
+
+router.get('/board', function(req, res, next) {
+  const id = req.query.id;
+
+  models.board.findAll()
+    .then(data => {
+      res.send(data);
+    })    
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+});
+
 module.exports = router;
