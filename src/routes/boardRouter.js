@@ -41,4 +41,21 @@ router.get("/showboard", async (req, res) => {
   }
 });
 
+router.delete('/delete/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const deletedBoard = await models.board.destroy({ where: { board_id: id } });
+
+    if (deletedBoard === 1) {
+      res.status(200).json({ message: '삭제 완료' });
+    } else {
+      res.status(404).json({ message: '보드를 찾을 수 없습니다' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '서버 오류' });
+  }
+});
+
 module.exports = router;
