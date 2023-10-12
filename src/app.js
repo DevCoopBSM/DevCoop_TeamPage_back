@@ -5,15 +5,17 @@ const port = 5000;
 const boardRouter = require("./routes/boardRouter.js");
 const sign = require("./routes/sign.js");
 const login = require("./routes/login.js");
-const create = require("./routes/create.js");
 
+const cors = require("cors"); // CORS를 처리하기 위한 미들웨어
+
+// const create = require("./routes/create.js");
+app.use(cors()); // cors이용함
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", boardRouter);
 app.use("/api", sign);
 app.use("/api", login);
-app.use("/api", create);
 
 db.sequelize
   .sync()
@@ -25,3 +27,4 @@ db.sequelize
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
 });
+
