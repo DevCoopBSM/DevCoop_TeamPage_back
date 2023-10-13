@@ -28,7 +28,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.get("/showboard", async (req, res) => {
+router.get("/blog", async (req, res) => {
   try {
     const postList = await models.board.findAll({
       order: [["board_id", "DESC"]],
@@ -58,7 +58,7 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
-router.post('/api/create/:id', async (req, res) => {
+router.post('/create/:id', async (req, res) => {
   const id = req.params.id;
   try {
     if (!id) {
@@ -80,6 +80,23 @@ router.post('/api/create/:id', async (req, res) => {
     res.status(500).send({
       message: error.message || `Create Error (id: ${id} )`,
     });
+  }
+});
+
+router.get("/blog/:board_id", async (req, res) => {
+  try {
+    const boardId = req.params.board_id;
+    const post = await models.board.findOne({ where: { board_id: board_id } });
+
+    if (!post) {
+      res
+        .status(404)
+        .json({ success: false, message: "게시물을 찾을 수 없습니다" });
+    } else {
+      res.status(200).json(post);
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, error: "서버 오류" });
   }
 });
 
