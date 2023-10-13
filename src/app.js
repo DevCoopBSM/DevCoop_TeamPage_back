@@ -8,7 +8,6 @@ const login = require("./routes/login.js");
 
 const cors = require("cors"); // CORS를 처리하기 위한 미들웨어
 
-// const create = require("./routes/create.js");
 app.use(cors()); // cors이용함
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,4 +26,3 @@ db.sequelize
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
 });
-
