@@ -42,8 +42,8 @@ router.get("/blog", async (req, res) => {
 });
 
 router.get("/blog/:board_id", async (req, res) => {
-  try {
-    const board_id = req.params.board_id;
+  const board_id = req.params.board_id;
+  try {  
     const post = await models.board.findOne({ where: { board_id: board_id } });
 
     if (!post) {
