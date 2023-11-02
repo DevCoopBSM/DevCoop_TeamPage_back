@@ -81,4 +81,30 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+//게시물 작성api
+router.post("/create", async (req, res) => {
+  const { title, detail, uuid } = req.body;
+
+  try {
+    const newBoard = await boardList.create({
+      title,
+      detail,
+      uuid,
+      view_count: 0,
+    });
+
+    return res.status(201).json({
+      status: "success",
+      message: "게시판이 성공적으로 생성되었습니다.",
+      data: newBoard,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "error",
+      message: "서버 오류로 인해 게시판 생성이 실패하였습니다.",
+      error: err,
+    });
+  }
+});
+
 module.exports = router;
