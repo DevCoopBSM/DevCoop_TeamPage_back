@@ -77,7 +77,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.post("/create/", async (req, res) => {
+/*router.post("/create/", async (req, res) => {
   try {
     res.send({
       message: `관리자 권한을 확인해 주세요.`,
@@ -87,17 +87,15 @@ router.post("/create/", async (req, res) => {
       message: error.message || `Create Error`,
     });
   }
-});
+});*/
 
-router.post("/create/:id", async (req, res) => {
-  const id = req.params.id;
-
+router.post("/create", async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, detail } = req.body;
 
     const newBoard = await models.board.create({
       title,
-      content,
+      detail,
     });
 
     if (newBoard === 1) {
