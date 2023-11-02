@@ -77,29 +77,42 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.post("/create/:uuid", async (req, res) => {
-  const id = req.params.id;
+/*router.post("/create/", async (req, res) => {
   try {
-    if (!id) {
+    res.send({
+      message: `관리자 권한을 확인해 주세요.`,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || `Create Error`,
+    });
+  }
+});*/
+
+router.post("/create", async (req, res) => {
+  try {
+    const { title, detail } = req.body;
+
+    const newBoard = await models.board.create({
+      title,
+      detail,
+    });
+
+    if (newBoard === 1) {
       res.send({
-        message: "관리자 권한을 확인해 주세요.",
+        message: `공지글로 등록 하시겠어요?`,
       });
     } else {
-      const { title, content } = req.body;
-
-      const newBoard = await boardList.create({
-        title,
-        content,
-      });
       res.send({
-        message: "공지글로 등록 하시겠어요?",
+        message: `오류`,
       });
     }
   } catch (error) {
     res.status(500).send({
-      message: error.message || `Create Error (id: ${id} )`,
+      message: error.message || `Create Error`,
     });
   }
 });
+
 
 module.exports = router;
