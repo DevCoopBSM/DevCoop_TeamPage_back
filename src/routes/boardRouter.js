@@ -6,6 +6,7 @@ const boardList = models.board;
 
 router.use(express.json());
 
+//업데이트api
 router.put("/update/:id", async (req, res) => {
   const id = req.params.id;
   const condition = { where: { board_id: id } };
@@ -28,6 +29,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
+//전체 게시물api
 router.get("/blog", async (req, res) => {
   try {
     const postList = await models.board.findAll({
@@ -41,9 +43,10 @@ router.get("/blog", async (req, res) => {
   }
 });
 
+//개별 게시물api
 router.get("/blog/:board_id", async (req, res) => {
   const board_id = req.params.board_id;
-  try {  
+  try {
     const post = await models.board.findOne({ where: { board_id: board_id } });
 
     if (!post) {
@@ -58,6 +61,7 @@ router.get("/blog/:board_id", async (req, res) => {
   }
 });
 
+//게시물 삭제api
 router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
 
@@ -74,23 +78,6 @@ router.delete("/delete/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "서버 오류" });
-  }
-});
-
-router.get("/blog/:board_id", async (req, res) => {
-  try {
-    const boardId = req.params.board_id;
-    const post = await models.board.findOne({ where: { board_id: board_id } });
-
-    if (!post) {
-      res
-        .status(404)
-        .json({ success: false, message: "게시물을 찾을 수 없습니다" });
-    } else {
-      res.status(200).json(post);
-    }
-  } catch (error) {
-    res.status(500).json({ success: false, error: "서버 오류" });
   }
 });
 
