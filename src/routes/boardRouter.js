@@ -86,11 +86,17 @@ router.post("/create", async (req, res) => {
   const { title, detail, uuid } = req.body;
 
   try {
+    if (!title || !detail) {
+      return res.status(400).json({
+        status: "error",
+        message: "제목과 내용은 필수 입력 항목입니다.",
+      });
+    }
+
     const newBoard = await boardList.create({
       title,
       detail,
       uuid,
-      view_count: 0,
     });
 
     return res.status(201).json({
