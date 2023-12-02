@@ -15,11 +15,11 @@ module.exports = (sequelize) => {
       },
       title: {
         type: DataTypes.STRING(100),
-        allowNull: true,
+        allowNull: false,
       },
       detail: {
         type: DataTypes.STRING(500),
-        allowNull: true,
+        allowNull: false,
       },
       uuid: {
         type: DataTypes.INTEGER,
