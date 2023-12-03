@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Sequelize, sequelize, DataTypes } = require('sequelize');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const models = require('../models');
 const users = models.user;
 
@@ -19,7 +20,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).send({ message: 'User not found' });
     }
 
-    if (pw === user.password) {
+    if (bcrypt.compareSync(pw, user.password)) {
       // Access Token
       const acc_token = jwt.sign({ uuid }, 'access-token-secret', {
         expiresIn: '1h',
