@@ -9,12 +9,7 @@ const login = require('./routes/login.js');
 const cors = require('cors'); // CORS를 처리하기 위한 미들웨어
 
 // app.use(cors()); // cors이용함
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
